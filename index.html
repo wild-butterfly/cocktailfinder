@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cocktail Recipe Finder</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Marvel:wght@400&display=swap"
+    />
+    <style>
+      body {
+        background-color: #51c2ff;
+        font-family: "Marvel", sans-serif;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+        font-size: larger;
+      }
+      h1,
+      h2 {
+        margin-bottom: 20px;
+      }
+      form {
+        margin-bottom: 20px;
+      }
+      label,
+      input,
+      button {
+        font-size: 1.2em;
+        font-family: "Marvel", sans-serif;
+      }
+      button {
+        font-family: "Marvel", sans-serif;
+        padding: 10px 20px;
+        background-color: #e30d0d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #555;
+      }
+      .recipe-container {
+        display: flex;
+        justify-content: center;
+      }
+      pre {
+        white-space: pre-wrap;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 5px;
+        font-family: "Marvel", sans-serif;
+        color: #fff;
+        text-align: left;
+        width: 100%;
+        max-width: 600px;
+        font-size: larger;
+      }
+      img.logo {
+        max-width: 80%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="logo.png" alt="Cocktail Finder Logo" class="logo" />
+    <form id="cocktail-form">
+      <label for="name">Cocktail Name:</label>
+      <input type="text" id="name" name="name" required />
+      <br /><br />
+      <label for="ingredients">Ingredients:</label>
+      <input type="text" id="ingredients" name="ingredients" required />
+      <br /><br />
+      <button type="submit">Get Recipe</button>
+    </form>
+    <h2>Recipe:</h2>
+    <div class="recipe-container">
+      <pre id="recipe"></pre>
+    </div>
+
+    <script>
+      document
+        .getElementById("cocktail-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const name = encodeURIComponent(
+            document.getElementById("name").value
+          );
+          const ingredients = encodeURIComponent(
+            document.getElementById("ingredients").value
+          );
+
+          try {
+            const response = await fetch(
+              `/api/cocktail?name=${name}&ingredients=${ingredients}`
+            );
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            document.getElementById("recipe").textContent = JSON.stringify(
+              data,
+              null,
+              2
+            );
+          } catch (error) {
+            document.getElementById(
+              "recipe"
+            ).textContent = `An error occurred: ${error.message}`;
+            console.error("Error:", error);
+          }
+        });
+    </script>
+  </body>
+</html>
