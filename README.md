@@ -110,6 +110,12 @@ The backend may return:
 
 The frontend displays user-friendly error messages.
 
+## 🌐 Live Demo
+This project uses a Node.js + Express backend and relies on a third-party API.
+For security and API usage reasons, it is not deployed publicly.
+
+The application is intended to be run locally.
+
 🤝 Contributing
 Contributions, suggestions and pull requests are welcome.
 
